@@ -26,6 +26,12 @@ const actions = {
     )
     commit("newTodo", response.data)
   },
+  async filterTodos({ commit }, opt) {
+    const limit = parseInt(opt.target.options[opt.target.options.selectedIndex].innerText)
+    const selectedFilter = limit !== limit ? '' : `?_limit=${limit}`
+    const response = await axios.get(api_url + selectedFilter)
+    commit("setTodos", response.data)
+  },
   async deleteTodo({ commit }, id) {
     await axios.delete(api_url + `/${id}`)
     commit("removeTodo", id)
