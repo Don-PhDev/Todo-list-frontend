@@ -15,6 +15,17 @@ const actions = {
     const response = await axios.get(api_url)
     commit("setTodos", response.data)
   },
+  async addTodo({ commit }, title) {
+    const response = await axios.post(api_url,
+      {
+        todo: {
+          title,
+          is_completed: false
+        }
+      }
+    )
+    commit("newTodo", response.data)
+  },
   async deleteTodo({ commit }, id) {
     await axios.delete(api_url + `/${id}`)
     commit("removeTodo", id)
@@ -27,6 +38,7 @@ const actions = {
 
 const mutations = {
   setTodos: (state, todos) => state.todos = todos,
+  newTodo: (state, todo) => state.todos.unshift(todo),
   removeTodo: (state, id) => {
     state.todos = state.todos.filter(todo => todo.id !== id)
   },
