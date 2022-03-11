@@ -16,15 +16,19 @@ const actions = {
     commit("setTodos", response.data)
   },
   async addTodo({ commit }, title) {
-    const response = await axios.post(api_url,
-      {
-        todo: {
-          title,
-          is_completed: false
+    if (title !== "") {
+      const response = await axios.post(api_url,
+        {
+          todo: {
+            title,
+            is_completed: false
+          }
         }
-      }
-    )
-    commit("newTodo", response.data)
+      )
+      commit("newTodo", response.data)
+    } else {
+      alert("Todo must not be empty")
+    }
   },
   async filterTodos({ commit }, opt) {
     const limit = parseInt(opt.target.options[opt.target.options.selectedIndex].innerText)
@@ -34,6 +38,7 @@ const actions = {
   },
   async deleteTodo({ commit }, id) {
     await axios.delete(api_url + `/${id}`)
+    alert("Please press OK to confirm to confirm your deletion")
     commit("removeTodo", id)
   },
   async updateTodo({ commit }, updatedTodo) {
