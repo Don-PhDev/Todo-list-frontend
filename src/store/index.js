@@ -1,8 +1,8 @@
 import { createStore } from "vuex"
+import TodoList from "./modules/TodoList"
 
 export default createStore({
-  state: {},
-  mutations: {},
-  actions: {},
-  modules: {}
+  modules: {
+    TodoList
+  }
 })

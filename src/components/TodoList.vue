@@ -8,11 +8,11 @@
     </div>
     <div class="todo-list">
       <div
-        v-for="(todo, idx) in allTodos"
-        :key="idx"
-        @click="onClick(todo)"
+        v-for="todo in allTodos"
+        :key="todo.id"
+        @dblclick="onDoubleClick(todo)"
         class="todo"
-        :class="{ 'is-complete': todo.completed }"
+        v-bind:class="{ 'is-complete': todo.is_completed }"
       >
         {{ todo.title }}
         <i @click="deleteTodo(todo.id)" class="fas fa-trash-alt"></i>
@@ -22,16 +22,16 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "TodoList",
   methods: {
-    ...mapActions(["fetchTodos", "deletedTodo", "updateTodo"]),
-    onClick(currentTodo) {
+    ...mapActions(["fetchTodos", "deleteTodo", "updateTodo"]),
+    onDoubleClick(currentTodo) {
       const updatedTodo = {
         id: currentTodo.id,
         title: currentTodo.title,
-        completed: !completed,
+        is_completed: !currentTodo.is_completed,
       }
       this.updateTodo(updatedTodo)
     },
@@ -90,6 +90,11 @@ i {
   width: 0.625rem;
   height: 0.625rem;
   background: #41b882;
+}
+
+.is-complete {
+  background: #35495e;
+  color: #fff;
 }
 
 @media (max-width: 31.25rem) {
